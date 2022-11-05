@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View, Text, Image, TouchableOpacity, Switch } from 'react-native';
-import AlarmBack from './AlarmBack';
+import WalletBack from './WalletBack';
 
-export default function AlarmContainer({ alarm }) {
+export default function WalletContainer({ alarm }) {
     const [alarmOn, setAlarmOn] = useState(false);
 
     return (
         <View style={{marginBottom: 70}}>
-            <AlarmBack />
+            <WalletBack />
             <View style={{
                 flexDirection: 'row',
                 width: '100%',

@@ -1,7 +1,7 @@
 import { View, useWindowDimensions } from 'react-native';
 import { Canvas, Fill, rrect, BoxShadow, rect, Box } from '@shopify/react-native-skia';
 
-export default function AlarmBack() {
+export default function WalletBack() {
     const { width, height } = useWindowDimensions();
 
     return (
