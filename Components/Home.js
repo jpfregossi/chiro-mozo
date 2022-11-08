@@ -12,7 +12,7 @@ const Home = () => {
         <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'flex-end', marginBottom: 150}}>
             <AlarmContainer alarm={"07: 30"}/>
             <AlarmContainer alarm={"07: 30"}/>
-            <AlarmContainer alarm={"07: 30"}/>
+            <AlarmContainer alarm={"07: 31"}/>
         </ScrollView>
     </>
   );
