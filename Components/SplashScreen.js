@@ -1,14 +1,64 @@
-import React, { useEffect, useRef } from 'react'
-import { Animated, Dimensions, Image, Text, View } from "react-native";
+import React, { useEffect, useRef, useState } from 'react'
+import { Animated, Dimensions, Image, Text, View, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { store } from '../store';
+import { fetchUsers, loginUser, selectAllUsers } from '../store/users';
 
 // Logo....
 import Logo from '../assets/chat.png';
 import Home from './Home';
+import TestComponent2 from './TestComponent2';
+import TokenStore from '../store/tokenStore';
 
 const BGColor = "#FC6868";
 
+const Stack = createNativeStackNavigator();
+
 export default function SplashScreen() {
+    const dispatch = useDispatch();
+    const [ hasToken, setHasToken ] = useState(false); 
+    const { loading, authenticated } = useSelector((state) => state.users);
+    const users = useSelector(selectAllUsers);
+    console.log("\nUsers: ", users);
+    console.log("\nLoading: ", loading);
+    console.log("\nAuth: ", authenticated);
+
+    /*useEffect(() => {
+        async function fetchData() {
+            try {
+                const userToken = await TokenStore.load();
+                if (userToken != null) {
+                    console.log("\Token Retrieved: ", userToken.token);
+                    setHasToken(true);
+                    dispatch(fetchUsers(userToken.token));
+
+                    const dataInterval = setInterval(() => 
+                        dispatch(fetchUsers(userToken.token))
+                        , 60 * 1000);
+
+                    return () => clearInterval(dataInterval);
+                }
+            } catch (e) {
+            }
+        }
+        fetchData();
+    }, []);*/
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const userToken = await TokenStore.load();
+                if (userToken != undefined && userToken != null && userToken.token) {
+                    console.log("Token Retrieved: ", userToken.token);
+                    dispatch(fetchUsers(userToken.token));
+                }
+                setHasToken(true);
+            } catch (e) {
+            }
+        }
+        fetchData();
+    }, []);
 
     // SafeArea Value...
     const edges = useSafeAreaInsets();
@@ -29,7 +79,6 @@ export default function SplashScreen() {
 
     // Animation Done....
     useEffect(() => {
-
         // Starting Animation after 500ms....
         setTimeout(() => {
 
@@ -58,7 +107,7 @@ export default function SplashScreen() {
                     {
                         // Moving to Right Most... (Dimensions.get("window").width / 2)
                         toValue: {
-                            x:  0,
+                            x: 0,
                             y: -(Dimensions.get("window").height / 2) - 75
                         },
                         useNativeDriver: true
@@ -78,6 +127,61 @@ export default function SplashScreen() {
         }, 500);
 
     }, [])
+
+    const [username, onChangeUsername] = React.useState("Caro94");
+    const [password, onChangePassword] = React.useState("1234567890");
+
+    /*if (loading && !authenticated && hasToken) {
+        return <ActivityIndicator size="large" style={styles.loader} />;
+    }
+    else */
+    console.log("!authenticated: " + !authenticated + " hasToken: " + hasToken + " !loading: " + !loading);
+    if (!authenticated && hasToken && !loading) {
+        return (
+            <View style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                backgroundColor: BGColor
+            }}>
+                <View style={styles.login}>
+                    <Text style={styles.title}>Logueate!</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangeUsername}
+                        placeholder="nombre de usuario"
+                        value={username}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangePassword}
+                        value={password}
+                        placeholder="contraseña"
+                    />
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => dispatch(loginUser({
+                            username: username,
+                            password: password,
+                        }))}
+                        accessibilityLabel="ingresar"
+                    >
+                        <Text style={styles.text}>Ingresa!</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.register}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        accessibilityLabel="registrarse"
+                    >
+                        <Text style={styles.text}>Registrate!</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
 
     // Going to Move Up like Nav Bar...
     return (
@@ -130,11 +234,62 @@ export default function SplashScreen() {
                     { translateY: contentTransition }
                 ]
             }}>
-
-                <Home></Home>
+                <Stack.Navigator>
+                    <Stack.Screen
+                        name="Home"
+                        component={Home}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen name="TestComponent2" component={TestComponent2} />
+                </Stack.Navigator>
 
             </Animated.View>
 
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    title: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: '500'
+    },
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 0,
+        padding: 10,
+        backgroundColor: 'white',
+        borderRadius: 20,
+    },
+    button: {
+        height: 40,
+        marginRight: 12,
+        marginLeft: 12,
+        marginTop: 40,
+        marginBottom: 40,
+        borderColor: 'white',
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        backgroundColor: '#3D26C2',
+    },
+    text: {
+        color: 'white',
+    },
+    login: {
+        flexDirection: 'column',
+        width: '100%',
+        justifyContent: 'center',
+        height: '70%',
+    },
+    register: {
+        flexDirection: 'column',
+        width: '100%',
+        height: '30%',
+        justifyContent: 'center',
+    }
+});

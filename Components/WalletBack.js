@@ -18,7 +18,7 @@ export default function WalletBack() {
                 </Box>
                 <Box box={rrect(rect(3 * (width / 4) - 75, 105, 140, 30), 5, 5)} color="#FC6868">
                     <BoxShadow dx={-2} dy={2} blur={3} color="black" />
-                    <BoxShadow dx={1} dy={-1} blur={3   } color="#fecdcd" />
+                    <BoxShadow dx={1} dy={-1} blur={3} color="#fecdcd" />
                 </Box>
             </Group>
         </Canvas>
