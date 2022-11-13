@@ -11,6 +11,7 @@ import Logo from '../assets/chat.png';
 import Home from './Home';
 import TestComponent2 from './TestComponent2';
 import TokenStore from '../store/tokenStore';
+import Depositar from './WalletCard/Depositar';
 
 const BGColor = "#FC6868";
 
@@ -192,6 +193,7 @@ export default function SplashScreen() {
             bottom: 0,
             left: 0,
             right: 0,
+            backgroundColor: '#E6EAF3',
         }}>
             <Animated.View style={{
                 flex: 1,
@@ -241,6 +243,7 @@ export default function SplashScreen() {
                         options={{ headerShown: false }}
                     />
                     <Stack.Screen name="TestComponent2" component={TestComponent2} />
+                    <Stack.Screen name="Depositar" component={Depositar} />
                 </Stack.Navigator>
 
             </Animated.View>

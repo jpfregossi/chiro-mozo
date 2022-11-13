@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import WalletBack from './WalletBack';
 import { formatCurrency } from "react-native-format-currency";
+import ChiroCoin from '../../assets/chiroldpi.png'
 
 
-export default function Wallet({ user }) {
+export default function WalletComponent({ navigation, user }) {
 
     return (
-        <View>
+        <View style={styles.wallet}>
             <WalletBack />
             <View style={{
                 flexDirection: 'row',
@@ -28,7 +28,7 @@ export default function Wallet({ user }) {
                         fontFamily: 'Ubuntu',
                         color: 'black'
                     }}>
-                        Te damos la bienvenida,
+                        Bienvenido/a,
                     </Text>
                     <Text style={{
                         marginLeft: 5,
@@ -54,14 +54,14 @@ export default function Wallet({ user }) {
                     }}>
                         {user && formatCurrency({ amount: ((user.lastBalance * 467600) + 0.001), code: "ARS" })[1].slice(0, -1)}
                     </Text>
-                    <Text style={{
-                        marginRight: 40,
-                        fontSize: 16,
-                        fontWeight: '500',
-                        color: 'black'
-                    }}>
-                        X
-                    </Text>
+                    <Image
+                        style={{
+                            marginRight: 40,
+                            marginTop: 3,
+                            width: 15,
+                            height: 15
+                        }}
+                        source={ChiroCoin} />
                 </View>
             </View>
             <View style={{
@@ -72,7 +72,9 @@ export default function Wallet({ user }) {
                 marginTop: 29,
             }}>
                 <TouchableOpacity
-                    onPress={() => console.log("Clickeó botón 1!")}
+                    onPress={() =>
+                        navigation.navigate('Depositar')
+                    }
                     accessibilityLabel="depositar"
                 >
                     <Text style={{
@@ -120,5 +122,8 @@ const styles = StyleSheet.create({
     loader: {
         marginTop: 'auto',
         marginBottom: 'auto'
-    }
+    },
+    wallet: {
+        height: 170,
+    },
 });

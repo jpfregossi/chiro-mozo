@@ -1,5 +1,5 @@
 import { useWindowDimensions } from 'react-native';
-import { Canvas, rrect, Box, Fill, rect, BoxShadow, Text, Group } from "@shopify/react-native-skia";
+import { Canvas, rrect, Box, Fill, rect, BoxShadow, Group } from "@shopify/react-native-skia";
 
 export default function WalletBack() {
     const { width, height } = useWindowDimensions();
