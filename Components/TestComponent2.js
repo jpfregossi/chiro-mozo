@@ -8,7 +8,7 @@ import {
     Image
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers, selectAllUsers } from '../store/users';
+import { fetchUsers, selectAllUsers, logOut } from '../store/users';
 
 const TestComponent2 = () => {
 
@@ -27,7 +27,7 @@ const TestComponent2 = () => {
 
     return (
         <View>
-            <Button title={'Reload'} onPress={() => dispatch(fetchUsers())} />
+            <Button title={'Reload'} onPress={() => dispatch(fetchUsers(users[0].accessToken))} />
             {users.map((user) => {
                 return (
                     <View style={styles.container} key={user.id}>
@@ -49,7 +49,9 @@ const TestComponent2 = () => {
                     </View>
                 );
             })}
+            <Button title={'Log Off'} onPress={() => dispatch(logOut())} />
         </View>
+         
     );
 };
 

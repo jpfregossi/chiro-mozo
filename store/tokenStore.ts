@@ -34,6 +34,7 @@ const TokenStore = {
     delete: async function(){
         try{
             await EncryptedStorage.removeItem("chiro_token");
+            console.log("Token eliminado.");
             return true;
         }
         catch(error){

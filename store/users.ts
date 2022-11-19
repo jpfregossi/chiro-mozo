@@ -74,7 +74,6 @@ export const loginUser = createAsyncThunk('users/fetchUsers', async (data: Reque
   console.log("Antes de la persistencia...: ", user);
   TokenStore.save({token: user.accessToken});
 
-  console.log("Antes del response...");
   return [user] as UserData[];
 });
 
@@ -87,7 +86,11 @@ const usersSlice = createSlice({
     loading: false,
     authenticated: false,
   }),
-  reducers: {},
+  reducers: {
+    logOut: (state) => {
+      TokenStore.delete();
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state) => {
       state.loading = true;
@@ -117,7 +120,9 @@ const usersSlice = createSlice({
 export const {
   selectById: selectBy_Id,
   selectAll: selectAllUsers,
-  selectTotal: selectTotalUsers
+  selectTotal: selectTotalUsers,
 } = usersAdapter.getSelectors((state: RootState) => state.users);
+
+export const { logOut } = usersSlice.actions;
 
 export default usersSlice.reducer;    
