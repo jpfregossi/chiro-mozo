@@ -7,10 +7,9 @@ const FeedbackCard = ({ user }) => {
 
   return (
     <View style={styles.feedbackWrapper}>
-      <CardBack fWidth={1} fHeight={1.6} color="#c9c8c8ff" />
+      <CardBack fWidth={1} fHeight={2.} color="#ebebeb" />
       <View style={styles.feedbackContainer}>
         <View style={styles.feedbackHeaderWrapper}>
-          <Text style={styles.feedbackHeader}>Últimas Chiroleadas Recibidas</Text>
         </View>
         {user && user.feedback.map((feed) => {
           return (

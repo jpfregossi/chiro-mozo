@@ -100,7 +100,7 @@ const BeaconComponent = ({ user }) => {
 
     const componentDidMount = () => {
         requestLocationPermission();
-        setUuid('72312524-3d0a-11ed-b878-0242ac120002');
+        setUuid(user.uuid);
     }
 
     const componentWillUnmount = () => {
@@ -132,11 +132,11 @@ const BeaconComponent = ({ user }) => {
 
     return (
         <View style={styles.beaconWrapper}>
-            <CardBack fWidth={1} fHeight={6} color="#E8E8E8CF" />
+            <CardBack fWidth={1} fHeight={7} color="#E8E8E8CF" />
             <View style={styles.beaconWrapper}>
                 <View style={styles.beaconContainer}>
                     <View style={styles.beaconTextWrapper}>
-                        <Text style={styles.beaconText}>{emitOn ? "Modo Off" : "Modo Mozo"}</Text>
+                        <Text style={styles.beaconText}>{emitOn ? "Dejar de estar visible" : "Aparecer visible"}</Text>
                     </View>
                     <View style={styles.beaconSwitchWrapper}>
                         <Switch style={styles.beaconSwitch}
@@ -153,35 +153,42 @@ export default BeaconComponent;
 const styles = StyleSheet.create({
     beaconWrapper: {
         width: '100%',
-        height: 110,
-        marginTop: -15,
+        height: 80,
+        marginTop: 20,
         marginBottom: -15,
     },
     beaconContainer: {
         width: '80%',
-        height: 65,
-        marginTop: 40,
+        height: 45,
+        marginTop: 5,
         marginHorizontal: 40,
         padding: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        
     },
     beaconTextWrapper: {
-        width: '50%',
+        width: '70%',
         height: '100%',
-        paddingVertical: 17,
+        paddingVertical: 7,
+        
     },
     beaconText: {
-        fontSize: 22,
+        fontSize: 18,
         fontFamily: 'Ubuntu',
         fontWeight: '700',
         paddingLeft: 5,
+        color: 'black',
     },
     beaconSwitchWrapper: {
-        width: '50%',
-        height: '100%',
-        paddingVertical: 17,
-        paddingRight: 17
+        width: '30%',
+        height: '140%',
+        marginTop: '-3%',
+        paddingVertical: 8,
+        paddingRight: 0,
+        flex: 1,
+        alignContent: 'flex-end',
+        justifyContent: 'center'
     },
     beaconSwitch: {
         transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }, { translateX: -20 }]

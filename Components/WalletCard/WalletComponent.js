@@ -13,7 +13,7 @@ export default function WalletComponent({ navigation, user }) {
                 flexDirection: 'row',
                 width: '100%',
                 alignItems: 'space-between',
-                marginTop: 60
+                marginTop: 35,
             }}>
                 <View style={{
                     flexDirection: 'row',
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
         marginBottom: 'auto'
     },
     wallet: {
-        height: 170,
+        height: 140,
+        marginTop: 0,
     },
 });

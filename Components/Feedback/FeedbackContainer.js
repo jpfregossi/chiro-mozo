@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     spacer: {
-        height: 2,
-        backgroundColor: 'gray',
-        width: '95%',
+        height: 1.5,
+        backgroundColor: '#9191917a',
+        width: '90%',
         margin: 10,
     }
 });

@@ -11,7 +11,9 @@ export default function CardBack({ fWidth, fHeight, color }) { //
             <Group>
                 <Box box={rrect(rect((width/fWidth) / 2 - 180, 22, 360, (height/fHeight)- 74), 10, 10)} color={color}>
                     <BoxShadow dx={4} dy={4} blur={5} color="gray" />
-                    <BoxShadow dx={-5} dy={-5} blur={10} color="white" />
+                    <BoxShadow dx={-5} dy={-5} blur={10} color="#f0f0f0" />
+                    <BoxShadow dx={-3} dy={-3} blur={3} color="gray" inner/>
+                    <BoxShadow dx={3} dy={3} blur={3} color="white" inner/>
                 </Box>
             </Group>
         </Canvas>
