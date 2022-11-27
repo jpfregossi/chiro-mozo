@@ -1,19 +1,19 @@
 import { Text, StyleSheet, View } from 'react-native';
-import CardBack from '../CardBack';
+import CardBack2 from '../CardBack2';
 import FeedbackContainer from './FeedbackContainer';
 
 
 const FeedbackCard = ({ user }) => {
 
   return (
-    <View style={styles.feedbackWrapper}>
-      <CardBack fWidth={1} fHeight={2.} color="#ebebeb" />
+    <View>
+      <CardBack2 alto={100} color="#ffffff" />
       <View style={styles.feedbackContainer}>
         <View style={styles.feedbackHeaderWrapper}>
         </View>
         {user && user.feedback.map((feed) => {
           return (
-            <FeedbackContainer feed={feed} />
+            <FeedbackContainer feed={feed} key={feed._id}/>
           )
         })}
       </View>
@@ -24,15 +24,14 @@ const FeedbackCard = ({ user }) => {
 export default FeedbackCard;
 
 const styles = StyleSheet.create({
-  feedbackWrapper: {
-    flex: 1,
-    marginBottom: 87,
-    paddingHorizontal: 25,
-    paddingVertical: 20,
-  },
   feedbackContainer: {
     borderRadius: 10,
-    height: '100%'
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    bottom: 0,
+    paddingHorizontal: 25,
+    //backgroundColor: 'red',
   },
   feedbackHeaderWrapper: {
     margin: 10,

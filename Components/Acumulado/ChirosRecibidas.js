@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
-import CardBack from '../CardBack';
+import CardBack3 from '../CardBack3';
 import SelectorBack from './SelectorBack';
 import DropdownIcon from '../../assets/dropdown.png';
 import ChiroCoin from '../../assets/chiroldpi.png';
@@ -25,7 +25,7 @@ export default function ChirosRecibidas({ user }) {
             </View>
             <View style={styles.row}>
                 <View style={styles.acumuladoWrapper}>
-                    <CardBack fWidth={1} fHeight={7} color="#e0e0e0ff" />
+                    <CardBack3 alto={30} color="#eeeeeeff" />
                     <View style={styles.acumuladoContainer}>
                         <Text style={styles.acumuladoText}>Chiros acumuladas</Text>
                         <View style={styles.amount}>
@@ -42,54 +42,53 @@ export default function ChirosRecibidas({ user }) {
 const styles = StyleSheet.create({
     wrapper: {
         width: '100%',
-        height: 110,
+        height: 100,
     },
     row: {
         flexDirection: 'row',
-        flex: 1,
+        height: 50,
     },
     selectorContainer: {
-        marginHorizontal: 15,
         flexDirection: 'row',
         flex: 1,
-        justifyContent: 'space-between',
+        height: "100%",
     },
     titulo: {
-        flex: 2,
+        flex: 3.7,
         paddingTop: 12,
-        paddingLeft: 10,
+        paddingLeft: 25,
     },
     selector: {
-        flex: 1,
+        flex: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'stretch',
     },
     selectorText: {
-        paddingLeft: 25,
+        paddingLeft: 15,
         fontSize: 16,
         fontWeight: '700',
+        paddingTop: 12,
     },
     dropdownIcon: {
         width: 13,
         height: 8,
-        marginTop: 4,
+        marginTop: 22,
         resizeMode: 'stretch',
         marginRight: 30,
     },
     acumuladoWrapper: {
         flex: 1,
         paddingTop: 0,
-        height: '120%',
-        marginTop: -20,
+        marginTop: -10,
     },
     acumuladoContainer: {
-        marginTop: 30,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginHorizontal: 40
+        marginHorizontal: 40,
+        marginTop: -105,
     },
     acumuladoText: {
         fontWeight: '600',

@@ -8,7 +8,7 @@ export default function FeedbackContainer({ feed }) {
 
     moment.locale('es'); 
     var localLocale = moment(feed.createdAt);
-    var fecha = localLocale.format('dddd') + " " + localLocale.format('D');
+    var fecha = localLocale.format('dddd') + " " + localLocale.format('D/m');
     var hora = localLocale.format('h:mm');
     fecha = fecha.charAt(0).toUpperCase() + fecha.slice(1);
 
@@ -60,9 +60,9 @@ const styles = StyleSheet.create({
         marginLeft: 0,
     },
     tinyLogo: {
-        width: 50,
-        height: 50,
-        borderRadius: 12,
+        width: 40,
+        height: 40,
+        borderRadius: 15,
     },
     textContainer: {
         flexDirection: 'column',

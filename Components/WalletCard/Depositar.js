@@ -13,7 +13,7 @@ export default function Depositar() {
     const writeToClipboard = async () => {
         Clipboard.setString(user ? user.widthdrawallWallets[0].address : 'NA');
         alert('Se copio en el portapapeles');
-      };
+    };
 
     return (
         <View style={styles.wrapper}>
@@ -40,19 +40,21 @@ export default function Depositar() {
                 </View>
             </View>
             <View style={styles.direccionWrapper}>
-                <Text>{user ? user.widthdrawallWallets[0].address : 'NA'}</Text>
                 <TouchableOpacity
                     activeOpacity={0.7}
-                    style={styles.buttonStyle}
+                    style={styles.walletAddress}
                     onPress={writeToClipboard}>
-                    <Image
-                        style={{
-                            marginRight: 40,
-                            marginTop: 3,
-                            width: 15,
-                            height: 15
-                        }}
-                        source={CopyIcon} />
+                    <Text style={styles.addressText}>
+                        {user ? user.widthdrawallWallets[0].address + " " : 'NA'}
+                        <Image
+                            style={{
+                                marginRight: 40,
+                                marginTop: 3,
+                                width: 15,
+                                height: 15
+                            }}
+                            source={CopyIcon} />
+                    </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -111,5 +113,13 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingLeft: 30,
         flexDirection: 'row',
-    }
+    },
+    walletAddress: {
+        width: '90%',
+    },
+    addressText: {
+        paddingTop: 10,
+        fontSize: 10,
+        textAlign: 'center'
+    },
 });

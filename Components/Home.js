@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-import { selectAllUsers } from '../store/users';
 
 import NavigationComponent from './NavigationBar/NavigationComponent';
 import BeaconComponent from './Beacon/BeaconComponent';
@@ -7,9 +6,10 @@ import ChirosRecibidas from './Acumulado/ChirosRecibidas';
 import FeedbackCard from './Feedback/FeedbackCard';
 import WalletComponent from './WalletCard/WalletComponent';
 import Background from './Background';
+import TestComponent from './TestComponent';
 
 const Home = ({ navigation }) => {
-  const user = useSelector(selectAllUsers)[0];
+  const user = useSelector((state) => state.users.currentUser);
 
   return (
     <>

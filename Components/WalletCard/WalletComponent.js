@@ -2,6 +2,8 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import WalletBack from './WalletBack';
 import { formatCurrency } from "react-native-format-currency";
 import ChiroCoin from '../../assets/chiroldpi.png'
+import DepositarIcon from '../../assets/depositar.png'
+import RetirarIcon from '../../assets/retirar.png'
 
 
 export default function WalletComponent({ navigation, user }) {
@@ -13,7 +15,7 @@ export default function WalletComponent({ navigation, user }) {
                 flexDirection: 'row',
                 width: '100%',
                 alignItems: 'space-between',
-                marginTop: 35,
+                marginTop: 28,
             }}>
                 <View style={{
                     flexDirection: 'row',
@@ -28,7 +30,7 @@ export default function WalletComponent({ navigation, user }) {
                         fontFamily: 'Ubuntu',
                         color: 'black'
                     }}>
-                        Bienvenido/a,
+                        Buenas,
                     </Text>
                     <Text style={{
                         marginLeft: 5,
@@ -46,6 +48,14 @@ export default function WalletComponent({ navigation, user }) {
                     justifyContent: 'flex-end',
                     marginTop: 0
                 }}>
+                    <Image
+                        style={{
+                            marginRight: 5,
+                            marginTop: 3,
+                            width: 15,
+                            height: 15
+                        }}
+                        source={ChiroCoin} />
                     <Text style={{
                         marginRight: 5,
                         fontSize: 16,
@@ -54,14 +64,14 @@ export default function WalletComponent({ navigation, user }) {
                     }}>
                         {user && formatCurrency({ amount: ((user.lastBalance * 467600) + 0.001), code: "ARS" })[1].slice(0, -1)}
                     </Text>
-                    <Image
-                        style={{
-                            marginRight: 40,
-                            marginTop: 3,
-                            width: 15,
-                            height: 15
-                        }}
-                        source={ChiroCoin} />
+                    <Text style={{
+                        marginRight: 35,
+                        fontSize: 16,
+                        fontWeight: '500',
+                        color: '#414141'
+                    }}>
+                         Chiro
+                    </Text>
                 </View>
             </View>
             <View style={{
@@ -76,16 +86,31 @@ export default function WalletComponent({ navigation, user }) {
                         navigation.navigate('Depositar')
                     }
                     accessibilityLabel="depositar"
+                    style={{
+                        marginLeft: 15, 
+                        display: 'flex', 
+                        width: '50%', 
+                        flexDirection: 'row', 
+                        justifyContent: 'center',
+                    }}
                 >
+                    <Image
+                        style={{
+                            marginRight: 0,
+                            marginTop: -3,
+                            width: 15,
+                            height: 20
+                        }}
+                        source={DepositarIcon} />
                     <Text style={{
                         fontSize: 16,
-                        fontWeight: '600',
+                        fontWeight: '700',
                         fontFamily: 'Ubuntu',
                         marginTop: -6,
-                        marginLeft: 6,
+                        marginLeft: 1,
                         lineHeight: 29,
-                        color: 'white',
-                        width: 140,
+                        color: 'black',
+                        width: '50%',
                         borderRadius: 5,
                         height: 30,
                         textAlign: 'center',
@@ -96,16 +121,31 @@ export default function WalletComponent({ navigation, user }) {
                 <TouchableOpacity
                     onPress={() => console.log("Clickeó botón 2!")}
                     accessibilityLabel="depositar"
+                    style={{
+                        marginRight: 10, 
+                        display: 'flex', 
+                        width: '50%', 
+                        flexDirection: 'row', 
+                        justifyContent: 'center',
+                    }}
                 >
+                    <Image
+                        style={{
+                            marginRight: 0,
+                            marginTop: 3,
+                            width: 15,
+                            height: 15
+                        }}
+                        source={RetirarIcon} />
                     <Text style={{
                         fontSize: 16,
-                        fontWeight: '600',
+                        fontWeight: '700',
                         fontFamily: 'Ubuntu',
                         marginTop: -6,
-                        marginLeft: -20,
+                        marginLeft: 0,
                         lineHeight: 29,
-                        color: 'white',
-                        width: 140,
+                        color: 'black',
+                        width: 80,
                         borderRadius: 5,
                         height: 30,
                         textAlign: 'center',
@@ -124,7 +164,7 @@ const styles = StyleSheet.create({
         marginBottom: 'auto'
     },
     wallet: {
-        height: 140,
-        marginTop: 0,
+        height: 130,
+        marginTop: -15,
     },
 });

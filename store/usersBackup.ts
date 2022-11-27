@@ -71,9 +71,5 @@ import {
     }
   });
   
-  export const {
-    selectAll: selectAllUsers,
-    selectTotal: selectTotalUsers
-  } = usersAdapter.getSelectors((state: RootState) => state.users);
   
   export default usersSlice.reducer;    

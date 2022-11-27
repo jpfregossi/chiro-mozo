@@ -28,7 +28,7 @@ const NavigationComponent = ({ navigation }) => {
                 <View style={styles.buttonContainer}>
                     <NavButtonBack pressed={true} />
                     <Image
-                        style={styles.buttonLogo}
+                        style={styles.buttonLogo2}
                         source={HomeLogo} />
                 </View>
             </TouchableOpacity>
@@ -75,5 +75,10 @@ const styles = StyleSheet.create({
         height: 26,
         width: 26,
         margin: 43,
+    },
+    buttonLogo2: {
+        height: 30,
+        width: 30,
+        margin: 41,
     }
 });

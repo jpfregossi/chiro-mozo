@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store } from '../store';
-import { fetchUsers, loginUser, selectAllUsers } from '../store/users';
+import { fetchUsers, loginUser } from '../store/users';
 
 // Logo....
 import Logo from '../assets/chat.png';
@@ -21,8 +21,8 @@ export default function SplashScreen() {
     const dispatch = useDispatch();
     const [ hasToken, setHasToken ] = useState(false); 
     const { loading, authenticated } = useSelector((state) => state.users);
-    const users = useSelector(selectAllUsers);
-    console.log("\nUsers: ", users);
+    const user = useSelector((state) => state.users.currentUser);
+    console.log("\n: ", user);
     console.log("\nLoading: ", loading);
     console.log("\nAuth: ", authenticated);
 

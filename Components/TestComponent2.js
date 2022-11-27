@@ -8,14 +8,14 @@ import {
     Image
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers, selectAllUsers, logOut } from '../store/users';
+import { fetchUsers, logOut } from '../store/users';
 
 const TestComponent2 = () => {
 
     const dispatch = useDispatch();
     const { loading } = useSelector((state) => state.users);
-    const users = useSelector(selectAllUsers);
-    console.log("\n\nUsers TestComponents: ", users);
+    const user = useSelector((state) => state.users.currentUser);
+    console.log("\n\nUsers TestComponents: ", user);
 
     /*useEffect(() => {
         dispatch(fetchUsers(users[0].accessToken));
@@ -27,31 +27,27 @@ const TestComponent2 = () => {
 
     return (
         <View>
-            <Button title={'Reload'} onPress={() => dispatch(fetchUsers(users[0].accessToken))} />
-            {users.map((user) => {
-                return (
-                    <View style={styles.container} key={user.id}>
-                        <View>
-                            <View style={styles.dataContainer}>
-                                <Image
-                                    style={styles.tinyLogo}
-                                    source={{
-                                        uri: user.profilePic,
-                                      }}
-                                />
-                            </View>
-                            <View style={styles.dataContainer}>
-                                <Text>
-                                    {user.username}
-                                </Text>
-                            </View>
-                        </View>
+            <Button title={'Reload'} onPress={() => dispatch(fetchUsers(user.accessToken))} />
+            <View style={styles.container} key={user.id}>
+                <View>
+                    <View style={styles.dataContainer}>
+                        <Image
+                            style={styles.tinyLogo}
+                            source={{
+                                uri: user.profilePic,
+                            }}
+                        />
                     </View>
-                );
-            })}
+                    <View style={styles.dataContainer}>
+                        <Text>
+                            {user.username}
+                        </Text>
+                    </View>
+                </View>
+            </View>
             <Button title={'Log Off'} onPress={() => dispatch(logOut())} />
         </View>
-         
+
     );
 };
 

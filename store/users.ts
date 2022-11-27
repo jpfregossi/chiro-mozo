@@ -33,6 +33,8 @@ interface Request {
   password: string,
 }
 
+const initialUserState = null as unknown as UserData;
+
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async (token: string, thunkAPI) => {
   const config = {
     headers: { ContentType: `application/json` }
@@ -85,6 +87,7 @@ const usersSlice = createSlice({
   initialState: usersAdapter.getInitialState({
     loading: false,
     authenticated: false,
+    currentUser: initialUserState,
   }),
   reducers: {
     logOut: (state) => {
@@ -99,6 +102,7 @@ const usersSlice = createSlice({
       console.log("Fue fulfilled....");
       if (action.payload[0].accessToken) {
         usersAdapter.setAll(state, action.payload);
+        state.currentUser = action.payload[0];
         state.authenticated = true;
         console.log("Fue Autenticado");
       } else {
@@ -116,12 +120,6 @@ const usersSlice = createSlice({
     });
   }
 });
-
-export const {
-  selectById: selectBy_Id,
-  selectAll: selectAllUsers,
-  selectTotal: selectTotalUsers,
-} = usersAdapter.getSelectors((state: RootState) => state.users);
 
 export const { logOut } = usersSlice.actions;
 

@@ -131,20 +131,23 @@ const BeaconComponent = ({ user }) => {
     }
 
     return (
-        <View style={styles.beaconWrapper}>
-            <CardBack fWidth={1} fHeight={7} color="#E8E8E8CF" />
+        <>
+            <CardBack alto={50} color="#e9e9e9ff" />
             <View style={styles.beaconWrapper}>
                 <View style={styles.beaconContainer}>
                     <View style={styles.beaconTextWrapper}>
-                        <Text style={styles.beaconText}>{emitOn ? "Dejar de estar visible" : "Aparecer visible"}</Text>
+                        <Text style={styles.beaconText}>{emitOn ? "Aparecer visible" : "Dejar de estar visible"}</Text>
                     </View>
                     <View style={styles.beaconSwitchWrapper}>
-                        <Switch style={styles.beaconSwitch}
+                        <Switch 
+                            style={styles.beaconSwitch}
+                            trackColor={{ false: "#8b8a8b", true: "#5A88FF" }}
+                            thumbColor={"#EEF0F5"}
                             value={emitOn} onValueChange={() => setEmitOn(!emitOn)} />
                     </View>
                 </View>
             </View>
-        </View>
+        </>
     );
 }
 
@@ -153,25 +156,25 @@ export default BeaconComponent;
 const styles = StyleSheet.create({
     beaconWrapper: {
         width: '100%',
-        height: 80,
-        marginTop: 20,
-        marginBottom: -15,
+        height: 120,
+        marginTop: -120,
     },
     beaconContainer: {
-        width: '80%',
-        height: 45,
-        marginTop: 5,
-        marginHorizontal: 40,
+        width: '100%',
+        height: 65,
+        marginTop: 26,
+        paddingHorizontal: 30,
         padding: 0,
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        
+        alignItems: 'center',
     },
     beaconTextWrapper: {
         width: '70%',
         height: '100%',
-        paddingVertical: 7,
-        
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
     beaconText: {
         fontSize: 18,
@@ -182,13 +185,13 @@ const styles = StyleSheet.create({
     },
     beaconSwitchWrapper: {
         width: '30%',
-        height: '140%',
-        marginTop: '-3%',
+        height: '80%',
         paddingVertical: 8,
         paddingRight: 0,
         flex: 1,
         alignContent: 'flex-end',
-        justifyContent: 'center'
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
     beaconSwitch: {
         transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }, { translateX: -20 }]
