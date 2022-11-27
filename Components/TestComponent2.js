@@ -17,17 +17,13 @@ const TestComponent2 = () => {
     const user = useSelector((state) => state.users.currentUser);
     console.log("\n\nUsers TestComponents: ", user);
 
-    /*useEffect(() => {
-        dispatch(fetchUsers(users[0].accessToken));
-    }, []);*/
-
     if (loading) {
         return <ActivityIndicator size="large" style={styles.loader} />;
     }
 
     return (
         <View>
-            <Button title={'Reload'} onPress={() => dispatch(fetchUsers(user.accessToken))} />
+            <Button title={'Reload'} onPress={() => /*dispatch(fetchUsers(user?.accessToken))*/ console.log("hola")} />
             <View style={styles.container} key={user.id}>
                 <View>
                     <View style={styles.dataContainer}>
@@ -45,7 +41,7 @@ const TestComponent2 = () => {
                     </View>
                 </View>
             </View>
-            <Button title={'Log Off'} onPress={() => dispatch(logOut())} />
+            <Button title={'Log Out'} onPress={() => dispatch(logOut())} />
         </View>
 
     );

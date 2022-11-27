@@ -8,7 +8,7 @@ import CopyIcon from '../../assets/copyIcon.png';
 
 
 export default function Depositar() {
-    const user = useSelector(selectAllUsers)[0];
+    const user = useSelector((state) => state.users.currentUser);
 
     const writeToClipboard = async () => {
         Clipboard.setString(user ? user.widthdrawallWallets[0].address : 'NA');

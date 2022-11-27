@@ -3,7 +3,6 @@ import {
   createEntityAdapter,
   createSlice
 } from '@reduxjs/toolkit';
-import { RootState } from '.';
 import TokenStore from './tokenStore';
 
 interface UserData {
@@ -40,76 +39,86 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async (token: str
     headers: { ContentType: `application/json` }
   };
 
-  console.log("\nFetching User: ", token);
+  const userToken = await TokenStore.load();
 
-  const response = await fetch('https://chiro-backend.herokuapp.com/api/chirolear/servant/update', {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-  });
+  if (!userToken || userToken.token == null || userToken.token == undefined) return thunkAPI.rejectWithValue("no token present.");
 
-  const user = (await response.json()) as UserData;
-  user.accessToken = token;
+  console.log("\nFetching User: ", userToken.token);
 
-  return [user] as UserData[];
+  try {
+    const response = await fetch('https://chiro-backend.herokuapp.com/api/chirolear/servant/update', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + userToken.token
+      },
+    }).then(resp => {
+      if (resp.status != 200) thunkAPI.rejectWithValue("Error en el fetch: ", resp.status);
+      return resp;
+    });
+
+    const user = (await response.json()) as UserData;
+    user.accessToken = userToken.token;
+
+    return user;
+  } catch (e) {
+    thunkAPI.rejectWithValue("error: " + e);
+  }
 });
 
 export const loginUser = createAsyncThunk('users/fetchUsers', async (data: Request, thunkAPI) => {
   console.log("Comenzando el request...");
-  const response = await fetch('https://chiro-backend.herokuapp.com/api/auth/servant/login', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: data.username,
-      password: data.password
-    }),
-  });
+  try {
+    const response = await fetch('https://chiro-backend.herokuapp.com/api/auth/servant/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: data.username,
+        password: data.password
+      }),
+    })
 
-  const user = (await response.json()) as UserData;
+    const user = (await response.json()) as UserData;
 
-  console.log("Antes de la persistencia...: ", user);
-  TokenStore.save({token: user.accessToken});
+    console.log("Antes de la persistencia...: ", user);
+    TokenStore.save({ token: user.accessToken });
 
-  return [user] as UserData[];
+    return user as UserData;
+  } catch (e) {
+    thunkAPI.rejectWithValue("credenciales inválidas. " + e);
+  }
 });
-
-export const usersAdapter = createEntityAdapter<UserData>();
-
 
 const usersSlice = createSlice({
   name: 'users',
-  initialState: usersAdapter.getInitialState({
-    loading: false,
+  initialState: {
+    loading: true,
     authenticated: false,
     currentUser: initialUserState,
-  }),
+  },
   reducers: {
     logOut: (state) => {
       TokenStore.delete();
+      state.authenticated = false;
+      state.loading = false;
+    },
+    stopLoading: (state) => {
+      state.loading = false;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state) => {
+      console.log("Iniciando fetchUsers...");
       state.loading = true;
     });
-    builder.addCase(fetchUsers.fulfilled || loginUser.fulfilled , (state, action) => {
-      console.log("Fue fulfilled....");
-      if (action.payload[0].accessToken) {
-        usersAdapter.setAll(state, action.payload);
-        state.currentUser = action.payload[0];
-        state.authenticated = true;
-        console.log("Fue Autenticado");
-      } else {
-        state.authenticated = false;
-        console.log("No pudo ser Autenticado: ", action.payload);
-        console.log("se eliminó el token vencido: ", TokenStore.delete());
-      }
+    builder.addCase(fetchUsers.fulfilled || loginUser.fulfilled, (state, action) => {
+      console.log("Fue fulfilled....", action.payload);
+      state.currentUser = action.payload as UserData;
+      state.authenticated = true;
       state.loading = false;
     });
     builder.addCase(fetchUsers.rejected, (state, action) => {
@@ -121,6 +130,6 @@ const usersSlice = createSlice({
   }
 });
 
-export const { logOut } = usersSlice.actions;
+export const { logOut, stopLoading } = usersSlice.actions;
 
 export default usersSlice.reducer;    

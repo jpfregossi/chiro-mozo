@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store } from '../store';
-import { fetchUsers, loginUser } from '../store/users';
+import { fetchUsers, loginUser, stopLoading } from '../store/users';
 
 // Logo....
 import Logo from '../assets/chat.png';
@@ -19,43 +19,25 @@ const Stack = createNativeStackNavigator();
 
 export default function SplashScreen() {
     const dispatch = useDispatch();
-    const [ hasToken, setHasToken ] = useState(false); 
     const { loading, authenticated } = useSelector((state) => state.users);
     const user = useSelector((state) => state.users.currentUser);
     console.log("\n: ", user);
     console.log("\nLoading: ", loading);
     console.log("\nAuth: ", authenticated);
 
-    /*useEffect(() => {
-        async function fetchData() {
-            try {
-                const userToken = await TokenStore.load();
-                if (userToken != null) {
-                    console.log("\Token Retrieved: ", userToken.token);
-                    setHasToken(true);
-                    dispatch(fetchUsers(userToken.token));
-
-                    const dataInterval = setInterval(() => 
-                        dispatch(fetchUsers(userToken.token))
-                        , 60 * 1000);
-
-                    return () => clearInterval(dataInterval);
-                }
-            } catch (e) {
-            }
-        }
-        fetchData();
-    }, []);*/
     useEffect(() => {
         async function fetchData() {
             try {
-                const userToken = await TokenStore.load();
-                if (userToken != undefined && userToken != null && userToken.token) {
-                    console.log("Token Retrieved: ", userToken.token);
-                    dispatch(fetchUsers(userToken.token));
+                dispatch(fetchUsers(""));
+
+                const dataInterval = setInterval(() => {
+                    dispatch(fetchUsers(""));
                 }
-                setHasToken(true);
+                    , 15 * 1000);
+
+                return () => clearInterval(dataInterval);
             } catch (e) {
+                console.log("Error en el fetcher...", e);
             }
         }
         fetchData();
@@ -82,7 +64,6 @@ export default function SplashScreen() {
     useEffect(() => {
         // Starting Animation after 500ms....
         setTimeout(() => {
-
             // Parallel Animation...
             Animated.parallel([
                 Animated.timing(
@@ -124,67 +105,14 @@ export default function SplashScreen() {
                 )
             ])
                 .start();
-
         }, 500);
-
     }, [])
 
     const [username, onChangeUsername] = React.useState("Caro94");
     const [password, onChangePassword] = React.useState("1234567890");
 
-    /*if (loading && !authenticated && hasToken) {
-        return <ActivityIndicator size="large" style={styles.loader} />;
-    }
-    else */
-    console.log("!authenticated: " + !authenticated + " hasToken: " + hasToken + " !loading: " + !loading);
-    if (!authenticated && hasToken && !loading) {
-        return (
-            <View style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                backgroundColor: BGColor
-            }}>
-                <View style={styles.login}>
-                    <Text style={styles.title}>Logueate!</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={onChangeUsername}
-                        placeholder="nombre de usuario"
-                        value={username}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={onChangePassword}
-                        value={password}
-                        placeholder="contraseña"
-                    />
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => dispatch(loginUser({
-                            username: username,
-                            password: password,
-                        }))}
-                        accessibilityLabel="ingresar"
-                    >
-                        <Text style={styles.text}>Ingresa!</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.register}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        accessibilityLabel="registrarse"
-                    >
-                        <Text style={styles.text}>Registrate!</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        )
-    }
+    console.log("auth: " + authenticated + " loading: " + loading );
 
-    // Going to Move Up like Nav Bar...
     return (
 
         <View style={{
@@ -236,18 +164,64 @@ export default function SplashScreen() {
                     { translateY: contentTransition }
                 ]
             }}>
-                <Stack.Navigator>
-                    <Stack.Screen
-                        name="Home"
-                        component={Home}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen name="TestComponent2" component={TestComponent2} />
-                    <Stack.Screen name="Depositar" component={Depositar} />
-                </Stack.Navigator>
-
+                {(!loading && !authenticated) ?
+                    (
+                        <View style={{
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            backgroundColor: BGColor
+                        }}>
+                            <View style={styles.login}>
+                                <Text style={styles.title}>Logueate!</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={onChangeUsername}
+                                    placeholder="nombre de usuario"
+                                    value={username}
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={onChangePassword}
+                                    value={password}
+                                    placeholder="contraseña"
+                                />
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => dispatch(loginUser({
+                                        username: username,
+                                        password: password,
+                                    }))}
+                                    accessibilityLabel="ingresar"
+                                >
+                                    <Text style={styles.text}>Ingresa!</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.register}>
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    accessibilityLabel="registrarse"
+                                >
+                                    <Text style={styles.text}>Registrate!</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    ) :
+                    (
+                        <Stack.Navigator>
+                            <Stack.Screen
+                                name="Home"
+                                component={Home}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen name="TestComponent2" component={TestComponent2} />
+                            <Stack.Screen name="Depositar" component={Depositar} />
+                        </Stack.Navigator>
+                    )
+                }
             </Animated.View>
-
         </View>
     );
 }

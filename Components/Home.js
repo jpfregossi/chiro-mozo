@@ -6,7 +6,6 @@ import ChirosRecibidas from './Acumulado/ChirosRecibidas';
 import FeedbackCard from './Feedback/FeedbackCard';
 import WalletComponent from './WalletCard/WalletComponent';
 import Background from './Background';
-import TestComponent from './TestComponent';
 
 const Home = ({ navigation }) => {
   const user = useSelector((state) => state.users.currentUser);
