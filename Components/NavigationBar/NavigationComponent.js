@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         marginHorizontal: '2.5%',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        zIndex: 0,
     },
     buttonContainer: {
         width: 112,

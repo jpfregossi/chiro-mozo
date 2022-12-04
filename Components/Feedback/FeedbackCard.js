@@ -1,6 +1,8 @@
 import { Text, StyleSheet, View } from 'react-native';
 import CardBack2 from '../CardBack2';
 import FeedbackContainer from './FeedbackContainer';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 
 const FeedbackCard = ({ user }) => {
@@ -11,9 +13,15 @@ const FeedbackCard = ({ user }) => {
       <View style={styles.feedbackContainer}>
         <View style={styles.feedbackHeaderWrapper}>
         </View>
-        {user && user.feedback.map((feed) => {
+        {user && user.feedback && user.feedback.slice().sort(function(a, b) {
+          let p = new Date(a.createdAt);
+          let s = new Date(b.createdAt);
+          if (p-s > 0) return -1;
+          else if(p-s < 0) return  1;
+          else return  0;
+        }).map((feed) => {
           return (
-            <FeedbackContainer feed={feed} key={feed._id}/>
+            <FeedbackContainer feed={feed} rate={user.lastRate} key={feed._id}/>
           )
         })}
       </View>

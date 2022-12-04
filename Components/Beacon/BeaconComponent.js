@@ -5,7 +5,7 @@ import BLEAdvertiser from 'react-native-ble-advertiser';
 import CardBack from '../CardBack';
 
 // Uses the Apple code to pick up iPhones
-const APPLE_ID = 0x4C;
+const APPLE_ID = 0xC10;
 const MANUF_DATA = [1, 0];
 
 BLEAdvertiser.setCompanyId(APPLE_ID);
@@ -96,39 +96,41 @@ export async function requestLocationPermission() {
 
 const BeaconComponent = ({ user }) => {
     const [emitOn, setEmitOn] = useState(false);
-    const [uuid, setUuid] = useState(null);
 
-    const componentDidMount = () => {
+    function startBeacon() {
         requestLocationPermission();
-        setUuid(user.uuid);
+        start();
     }
 
-    const componentWillUnmount = () => {
+    function stopBeacon() {
         stop();
     };
 
-    const start = () => {
-        console.log(uuid, "Starting Advertising");
-        BLEAdvertiser.broadcast(uuid, MANUF_DATA, {
+    function start() {
+        console.log(user.uuid, "Starting Advertising");
+        BLEAdvertiser.broadcast(user.uuid, MANUF_DATA, {
             advertiseMode: BLEAdvertiser.ADVERTISE_MODE_BALANCED,
             txPowerLevel: BLEAdvertiser.ADVERTISE_TX_POWER_MEDIUM,
             connectable: false,
             includeDeviceName: false, includeTxPowerLevel: false
         })
-            .then(sucess => console.log(uuid, "Adv Successful", sucess))
-            .catch(error => console.log(uuid, "Adv Error", error));
+            .then(sucess => console.log(user.uuid, "Adv Successful", sucess))
+            .catch(error => console.log(user.uuid, "Adv Error", error));
     }
 
-    const stop = () => {
-        console.log(uuid, "Stopping Broadcast");
+    function stop() {
+        console.log(user.uuid, "Stopping Broadcast");
         BLEAdvertiser.stopBroadcast()
-            .then(sucess => console.log(uuid, "Stop Broadcast Successful", sucess))
-            .catch(error => console.log(uuid, "Stop Broadcast Error", error));
+            .then(sucess => console.log(user.uuid, "Stop Broadcast Successful", sucess))
+            .catch(error => console.log(user.uuid, "Stop Broadcast Error", error));
     }
 
-    const short = (str) => {
-        return (str.substring(0, 4) + " ... " + str.substring(str.length - 4, str.length)).toUpperCase();
-    }
+    function togglechiroSignal(e) {
+        console.log('You clicked submit.');
+        if (!emitOn) startBeacon();
+        else stopBeacon();
+        setEmitOn(!emitOn);
+      } 
 
     return (
         <>
@@ -143,7 +145,7 @@ const BeaconComponent = ({ user }) => {
                             style={styles.beaconSwitch}
                             trackColor={{ false: "#8b8a8b", true: "#5A88FF" }}
                             thumbColor={"#EEF0F5"}
-                            value={emitOn} onValueChange={() => setEmitOn(!emitOn)} />
+                            value={emitOn} onValueChange={(e) => togglechiroSignal(e)} />
                     </View>
                 </View>
             </View>

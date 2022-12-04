@@ -62,7 +62,7 @@ export default function WalletComponent({ navigation, user }) {
                         fontWeight: '500',
                         color: 'white'
                     }}>
-                        {user && formatCurrency({ amount: ((user.lastBalance * 467600) + 0.001), code: "ARS" })[1].slice(0, -1)}
+                        {user && formatCurrency({ amount: ((Math.round(user.lastBalance * user.lastRate * 100)/100) + 0.001), code: "ARS" })[1].slice(0, -1)}
                     </Text>
                     <Text style={{
                         marginRight: 35,

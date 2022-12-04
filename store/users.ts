@@ -54,14 +54,17 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async (token: str
         'Authorization': 'Bearer ' + userToken.token
       },
     }).then(resp => {
-      if (resp.status != 200) thunkAPI.rejectWithValue("Error en el fetch: ", resp.status);
-      return resp;
+      if (resp.status != 200) return thunkAPI.rejectWithValue("Error en el fetch: " + resp.status);
+      return resp.json();
+    }).then((json) => {
+      console.log("recibio user: ", json);
+      return json as UserData;
     });
 
-    const user = (await response.json()) as UserData;
-    user.accessToken = userToken.token;
+    //const user = (await response.json()) as UserData;
+    //user.accessToken = userToken.token;
 
-    return user;
+    return response;
   } catch (e) {
     thunkAPI.rejectWithValue("error: " + e);
   }
@@ -116,7 +119,7 @@ const usersSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchUsers.fulfilled || loginUser.fulfilled, (state, action) => {
-      console.log("Fue fulfilled....", action.payload);
+      console.log("Fue fulfilled......");
       state.currentUser = action.payload as UserData;
       state.authenticated = true;
       state.loading = false;

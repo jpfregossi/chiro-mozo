@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import QRCode from 'react-native-qrcode-svg';
 import Clipboard from '@react-native-community/clipboard';
 
-import { selectAllUsers } from '../../store/users';
 import CopyIcon from '../../assets/copyIcon.png';
 
 

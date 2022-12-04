@@ -2,13 +2,13 @@ import * as React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/es';
+import { formatCurrency } from "react-native-format-currency";
 
-export default function FeedbackContainer({ feed }) {
-    console.log("feed: ", feed);
-
+export default function FeedbackContainer({ feed, rate }) {
     moment.locale('es'); 
-    var localLocale = moment(feed.createdAt);
-    var fecha = localLocale.format('dddd') + " " + localLocale.format('D/m');
+    var localLocale = moment(new Date(feed.createdAt));
+    console.log("rate: ", rate);
+    var fecha = localLocale.format('dddd') + " " + localLocale.format('D/M');
     var hora = localLocale.format('h:mm');
     fecha = fecha.charAt(0).toUpperCase() + fecha.slice(1);
 
@@ -32,8 +32,13 @@ export default function FeedbackContainer({ feed }) {
                             <Text style={styles.text}>{hora}</Text>
                         </View>
                     </View>
-                    <View style={styles.textBottomContainer}>
-                        <Text style={styles.text}>{feed && feed.message}</Text>
+                    <View style={styles.textTopContainer}>
+                        <View style={styles.fecha}>
+                            <Text style={styles.text}>{feed && feed.message}</Text>
+                        </View>
+                        <View style={styles.hora}>
+                            <Text style={styles.text}>{formatCurrency({ amount: ((Math.round(feed.amount * rate * 100)/100) + 0.001), code: "ARS" })[1].slice(0, -1)}</Text>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -62,6 +67,7 @@ const styles = StyleSheet.create({
     tinyLogo: {
         width: 40,
         height: 40,
+        margin: 2,
         borderRadius: 15,
     },
     textContainer: {
@@ -87,9 +93,17 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu',
         color: '#414141',
         fontSize: 15,
-        fontWeight: '700',
-        color: 'black',
+        //fontWeight: '700',
+        color: '#414141',
         overflow: 'hidden',
+    },
+    textMessage: {
+        fontFamily: 'Ubuntu',
+        color: '#414141',
+        fontSize: 15,
+        fontWeight: '700',
+        overflow: 'hidden',
+        marginTop: 2,   
     },
     spacer: {
         height: 1.5,

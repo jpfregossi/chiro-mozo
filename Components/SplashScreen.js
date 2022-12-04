@@ -21,21 +21,20 @@ export default function SplashScreen() {
     const dispatch = useDispatch();
     const { loading, authenticated } = useSelector((state) => state.users);
     const user = useSelector((state) => state.users.currentUser);
-    console.log("\n: ", user);
-    console.log("\nLoading: ", loading);
-    console.log("\nAuth: ", authenticated);
+    console.log("Loading: ", loading);
+    console.log("Auth: ", authenticated);
 
     useEffect(() => {
         async function fetchData() {
             try {
                 dispatch(fetchUsers(""));
 
-                const dataInterval = setInterval(() => {
+                /*const dataInterval = setInterval(() => {
                     dispatch(fetchUsers(""));
                 }
                     , 15 * 1000);
 
-                return () => clearInterval(dataInterval);
+                return () => clearInterval(dataInterval);*/
             } catch (e) {
                 console.log("Error en el fetcher...", e);
             }
