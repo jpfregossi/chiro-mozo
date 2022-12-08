@@ -22,7 +22,7 @@ export default function CardBack2({ alto, color }) { //
     const hMargin = 5 * per;
     const ancho = width - 2 * hMargin;
     const r = 10;
-    const altCont = scale*105 + 20;
+    const altCont = 400;
 
     console.log("scale: ", height);
 

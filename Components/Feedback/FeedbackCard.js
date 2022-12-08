@@ -9,7 +9,7 @@ const FeedbackCard = ({ user }) => {
 
   return (
     <View>
-      <CardBack2 alto={100} color="#ffffff" />
+      <CardBack2 alto={150} color="#ffffff" />
       <View style={styles.feedbackContainer}>
         <View style={styles.feedbackHeaderWrapper}>
         </View>

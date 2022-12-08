@@ -29,12 +29,12 @@ export default function SplashScreen() {
             try {
                 dispatch(fetchUsers(""));
 
-                /*const dataInterval = setInterval(() => {
+                const dataInterval = setInterval(() => {
                     dispatch(fetchUsers(""));
                 }
                     , 15 * 1000);
 
-                return () => clearInterval(dataInterval);*/
+                return () => clearInterval(dataInterval);
             } catch (e) {
                 console.log("Error en el fetcher...", e);
             }

@@ -10,19 +10,8 @@ export default function ChirosRecibidas({ user }) {
     const [ selector, setSelector ] = useState("Mes"); 
 
     function getSum(total, feed) {
-        console.log("total: " + total + " feed: " + feed);
         return parseFloat(total + feed);
     }
-
-    /*const total = user.feedback.slice()
-        .map((t) => {
-            console.log("feed: ", t.amount);
-            return t.amount;
-        })
-        .map((t) => {
-            return t * user.lastRate;
-        })
-        .reduce(getSum, 0);*/
 
     return (
         <View style={styles.wrapper}>
@@ -46,17 +35,14 @@ export default function ChirosRecibidas({ user }) {
                         <View style={styles.amount}>
                             <Image style={styles.chiroCoin} source={ChiroCoin} />
                             <Text style={styles.amountText}>{
-                                user ? user.feedback.slice()
+                                user ? Math.round(user.feedback.slice()
                                 .map((t) => {
                                     return t.amount;
                                 })
-                                /*.filter((feed) => {
-                                    return feed.crea > (Date.now() - 7200000);
-                                })*/
                                 .map((t) => {
                                     return t * user.lastRate;
                                 })
-                                .reduce(getSum, 0) : 0
+                                .reduce(getSum, 0)) : 0
                             } chiro</Text>
                         </View>
                     </View>
